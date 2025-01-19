@@ -1,31 +1,50 @@
-import React, { useState } from 'react'
-import Form from './Components/Form'
-import Cards from './Components/Cards'
-import Nav from './Components/Nav'
+import axios from 'axios'
+import React from 'react'
+import { useState } from 'react'
 
 function App() {
-  const [user,setuser]=useState([])
-  const [taskCount,setTaskCount]=useState(0)
-  const [val,setval]=useState(false)
 
-  const datapathv = (e) => {
-    setuser([...user, e]);
-    setTaskCount(taskCount + 1); 
-  };
 
-  const removekaro = (id) => {
-    setuser((prev) => prev.filter((item, index) => index !== id));
-    setTaskCount((prev) => (prev > 0 ? prev - 1 : 0)); 
-  };
- 
+  const[user,setuser]= useState([])
+
+  const dataan=()=>{
+
+    const api="https://randomuser.me/api/?results=2"
+
+    axios.get(api).then((results)=>{
+     const userdata =(results.data.results[0]);
+     const picture=userdata.picture.large
+     const name=`${userdata.name.first} ${userdata.name.last}` 
+     const phone=userdata.phone
+     const gender=userdata.gender
+     console.log(results.data.results[0]);
+     
+     setuser([...user,{picture,name,phone,gender}])
+      
+    })
+
+  }
+
 
   return (
-    <div className={`w-full h-screen ${val ? "bg-gray-500" :"bg-blue-200"} flex flex-col   items-center justify-center`}>
-      <Nav taskCount={taskCount}  val={val} />
-      <Form datapathv={datapathv}/>
-      <Cards user={user} removekaro={removekaro}/>
+    <div className='w-full min-h-screen bg-gray-500  '>
+        <button onClick={()=>dataan()} className='bg-green-500 px-1 py-1 rounded-md mb-2'>click and create random user details card</button>
+      <div className='w-full min-h-screen flex gap-10 flex-wrap'>
+      {user.map((item,index)=>(
+         <div key={index} className='w-[20vw] h-[20vw] border flex  flex-col  items-center '>
+         <div className='w-[5vw] h-[5vw]'>
+           <img className='w-[5vw] h-[5vw]' src={item.picture} alt="picture" />
+         </div>
+         <h1 className='text-[1.8vw]'>{`phone number:${item.phone}`}</h1>
+         <h1 className='text-[2vw]'>{`name:${item.name}`}</h1>
+         <h1 className='text-[2vw]'>{`gender:${item.gender}`}</h1>
+       </div>
+       ))}
+      </div>
     </div>
   )
 }
 
 export default App
+
+
