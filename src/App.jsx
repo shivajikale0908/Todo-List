@@ -24,11 +24,12 @@ function App() {
     })
 
   }
+  
 
 
   return (
     <div className='w-full min-h-screen bg-gray-500  '>
-        <button onClick={()=>dataan()} className='bg-green-500 px-1 py-1 rounded-md mb-2'>click and create random user details card</button>
+        <button onClick={()=>dataan()} className='bg-green-500 px-1 py-1 rounded-md mb-2'>click and create random user details cards</button>
       <div className='w-full min-h-screen flex gap-10 flex-wrap'>
       {user.map((item,index)=>(
          <div key={index} className='w-[20vw] h-[20vw] border flex  flex-col  items-center '>
